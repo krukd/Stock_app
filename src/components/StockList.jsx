@@ -1,23 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FaCaretDown } from "react-icons/fa";
 import { FaCaretUp } from "react-icons/fa";
 import finnHub from "../apis/finnHub";
+import { ListContext } from "../context/StockCompaniesList";
+
+
 
 export const StockList = () => {
   const [stockRates, setStockRates] = useState([]);
-  const [companiesList, setListOfCompanies] = useState([
-    "GOOGL",
-    "MSFT",
-    "AMZN",
-  ]);
+  const {stockCompaniesList} = useContext(ListContext)
+  
 
   const changeColor = (change) => {
-    return change > 0 ? "success" : "danger"
-  }
+    return change > 0 ? "success" : "danger";
+  };
 
   const renderIcon = (change) => {
-    return change > 0 ? <FaCaretUp /> : <FaCaretDown />
-  }
+    return change > 0 ? <FaCaretUp /> : <FaCaretDown />;
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -26,7 +26,7 @@ export const StockList = () => {
       let responses = [];
       try {
         responses = await Promise.all(
-          companiesList.map((company) => {
+          stockCompaniesList.map((company) => {
             return finnHub.get("/quote", {
               params: {
                 symbol: company,
@@ -79,8 +79,14 @@ export const StockList = () => {
               <tr className="table-row" key={stock.symbol}>
                 <th scope="row">{stock.symbol}</th>
                 <td>{stock.data.c}</td>
-                <td className={`text-${changeColor(stock.data.d)}`}>{stock.data.d}{renderIcon(stock.data.d)}</td>
-                <td className={`text-${changeColor(stock.data.d)}`}>{stock.data.dp}{renderIcon(stock.data.dp)}</td>
+                <td className={`text-${changeColor(stock.data.d)}`}>
+                  {stock.data.d}
+                  {renderIcon(stock.data.d)}
+                </td>
+                <td className={`text-${changeColor(stock.data.d)}`}>
+                  {stock.data.dp}
+                  {renderIcon(stock.data.dp)}
+                </td>
                 <td>{stock.data.h}</td>
                 <td>{stock.data.l}</td>
                 <td>{stock.data.o}</td>
