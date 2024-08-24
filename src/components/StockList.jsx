@@ -4,11 +4,9 @@ import { FaCaretUp } from "react-icons/fa";
 import finnHub from "../apis/finnHub";
 import { ListContext } from "../context/StockCompaniesList";
 
-
-
 export const StockList = () => {
-  const [stockRates, setStockRates] = useState([]);
-  const {stockCompaniesList} = useContext(ListContext)
+  const { stockRates, setStockRates } = useContext(ListContext);
+  const {stockCompaniesList} = useContext(ListContext);
   
 
   const changeColor = (change) => {
@@ -46,7 +44,7 @@ export const StockList = () => {
           setStockRates(data);
         }
 
-        console.log(data);
+        // console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -57,7 +55,7 @@ export const StockList = () => {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [stockCompaniesList]);
   return (
     <div>
       <table className="table hover mt-5">

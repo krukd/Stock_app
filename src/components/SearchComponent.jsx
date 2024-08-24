@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import finnHub from "../apis/finnHub";
+import { ListContext } from "../context/StockCompaniesList";
 
 export const SearchComponent = () => {
   const [search, setSearch] = useState("");
   const [results, setResult] = useState([]);
+  const { addStock } = useContext(ListContext);
 
   const renderDropDown = () => {
     const dropDownClass = search ? "show" : null;
@@ -20,7 +22,14 @@ export const SearchComponent = () => {
       >
         {results.map((result) => {
           return (
-            <li key={result.symbol} className="dropdown-item">
+            <li
+              onClick={() => {
+                addStock(result.symbol); // Сначала вызывается addStock
+                setSearch(""); // Затем вызывается setSearch
+              }}
+              key={result.symbol}
+              className="dropdown-item"
+            >
               {result.description} ({result.symbol})
             </li>
           );
