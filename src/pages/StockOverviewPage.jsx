@@ -1,3 +1,12 @@
+import {SearchComponent} from '../components/SearchComponent'
+import {StockList} from '../components/StockList'
+import { useState, useEffect } from 'react'
+
 export const StockOverviewPage = () => {
-    return <div>Stock Overview Page</div>
+    
+
+    return <div>
+        < SearchComponent/>
+        < StockList />
+    </div>
 }
