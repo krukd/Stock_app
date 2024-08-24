@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { FaCaretDown } from "react-icons/fa";
+import { FaCaretUp } from "react-icons/fa";
 import finnHub from "../apis/finnHub";
 
 export const StockList = () => {
@@ -8,6 +10,14 @@ export const StockList = () => {
     "MSFT",
     "AMZN",
   ]);
+
+  const changeColor = (change) => {
+    return change > 0 ? "success" : "danger"
+  }
+
+  const renderIcon = (change) => {
+    return change > 0 ? <FaCaretUp /> : <FaCaretDown />
+  }
 
   useEffect(() => {
     let isMounted = true;
@@ -69,8 +79,8 @@ export const StockList = () => {
               <tr className="table-row" key={stock.symbol}>
                 <th scope="row">{stock.symbol}</th>
                 <td>{stock.data.c}</td>
-                <td className="text-success">{stock.data.d}</td>
-                <td className="text-danger">{stock.data.dp}</td>
+                <td className={`text-${changeColor(stock.data.d)}`}>{stock.data.d}{renderIcon(stock.data.d)}</td>
+                <td className={`text-${changeColor(stock.data.d)}`}>{stock.data.dp}{renderIcon(stock.data.dp)}</td>
                 <td>{stock.data.h}</td>
                 <td>{stock.data.l}</td>
                 <td>{stock.data.o}</td>
